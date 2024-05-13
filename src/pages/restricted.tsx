@@ -20,7 +20,7 @@ const Restricted: React.FC = () => {
 
   if (keycloak) {
     const url =
-      "https://grafana.slabs.kr?orgId=1&kiosk&auth_token=" +
+      "https://grafana.slabs.kr/d/edllhcz0aroqod/test-dashboard?orgId=1&kiosk&auth_token=" +
       keycloak.token;
     if (authenticated)
       return (
