@@ -7,9 +7,9 @@ const Restricted: React.FC = () => {
 
   useEffect(() => {
     const keycloak = Keycloak({
-      url: "http://env.grafana.local:8087/auth",
-      realm: "grafana",
-      clientId: "sample-iframe-project",
+      url: "https://keycloak.slabs.kr/auth",
+      realm: "slabs",
+      clientId: "grafana",
     });
 
     keycloak.init({ onLoad: "login-required" }).then((authenticated) => {
@@ -20,7 +20,7 @@ const Restricted: React.FC = () => {
 
   if (keycloak) {
     const url =
-      "http://env.grafana.local:3000?orgId=1&kiosk&auth_token=" +
+      "https://grafana.slabs.kr?orgId=1&kiosk&auth_token=" +
       keycloak.token;
     if (authenticated)
       return (
