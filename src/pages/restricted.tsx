@@ -7,7 +7,7 @@ const Restricted: React.FC = () => {
 
   useEffect(() => {
     const keycloak = Keycloak({
-      url: "https://keycloak.slabs.kr/auth",
+      url: "https://keycloak.slabs.kr",
       realm: "slabs",
       clientId: "grafana",
     });
