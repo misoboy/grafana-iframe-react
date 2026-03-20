@@ -1,18 +1,52 @@
-# Grafana iframe with JWT embedded token sample
+# grafana-iframe-react
 
-## Setting up this sample
+> React sample app for embedding **Grafana dashboards** via iframe with **JWT authentication** — demonstrates Grafana's JWT embed token flow.
 
-- Clone grafana repo
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.x-3178C6?logo=typescript&logoColor=white)](https://typescriptlang.org)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://reactjs.org)
+[![Grafana](https://img.shields.io/badge/Grafana-JWT_Embed-F46800?logo=grafana&logoColor=white)](https://grafana.com)
+[![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)](https://docker.com)
 
-`git clone https://github.com/grafana/grafana.git` 
+## Overview
 
-- Setup the [jwt-proxy development environment](https://github.com/grafana/grafana/tree/main/devenv/docker/blocks/auth/jwt_proxy)
+This project demonstrates how to embed a Grafana dashboard inside a React application using Grafana's **JWT embedded token** feature. The JWT proxy handles authentication so that users see dashboards without needing a separate Grafana login.
 
-`make devenv sources="auth/jwt_proxy"`
+## Architecture
 
-Add the following to your grafana configuration.
+```
+React App (this repo)
+    └─► iframe src: Grafana URL + JWT token
+              └─► Grafana verifies JWT via jwks.json
+                      └─► Renders dashboard
+```
 
-You may need to copy the [jwks.json](https://github.com/grafana/grafana/blob/main/devenv/docker/blocks/auth/jwt_proxy/jwks.json) and change the path of `jwk_set_file` accordingly.
+## Prerequisites
+
+- Node.js 16+
+- Yarn
+- Grafana with JWT auth enabled
+- [jwt-proxy](https://github.com/grafana/grafana/tree/main/devenv/docker/blocks/auth/jwt_proxy) running
+
+## Getting Started
+
+```bash
+git clone https://github.com/misoboy/grafana-iframe-react.git
+cd grafana-iframe-react
+
+yarn install
+yarn start
+```
+
+### Docker
+
+```bash
+docker build -t grafana-iframe-react .
+docker run -p 3000:3000 grafana-iframe-react
+```
+
+## Grafana Configuration
+
+Add to `grafana.ini`:
 
 ```ini
 [auth.jwt]
@@ -31,21 +65,13 @@ url_login = true
 allow_embedding = true
 ```
 
-- Start the sample repository
+## Setup Steps
 
-`yarn && yarn start`
+1. Clone Grafana: `git clone https://github.com/grafana/grafana.git`
+2. Start jwt-proxy devenv: `make devenv sources="auth/jwt_proxy"`
+3. Configure Grafana as above
+4. Start this React app and open `http://localhost:3000`
 
-Example login:
-`jwt-admin:grafana`
+## License
 
-## What's going on?
-
-- Sample app authenticates against keycloak (oauth provider) and retrieves JWT token
-
-- Sample app builds a grafana URL to the dashboard with the JWT token embbeded in the URL
-
-Example: `http://env.grafana.local:3000/d/RciOKLR4z/bob-the-board?orgId=1&kiosk&auth_token=eyJhbxxxxxxxxxxxxx`
-
-- This URL is used to display an iframe
-
-![image](https://user-images.githubusercontent.com/8071073/180830605-1aca5062-9d7a-4ed2-8a31-d744ec6ae9ae.png)
+MIT
